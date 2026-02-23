@@ -1,0 +1,14 @@
+{
+    "name": "agara-sofvix-root",
+    "version": "1.0.0",
+    "scripts": {
+        "dev:frontend": "npm run dev --prefix frontend",
+        "dev:admin": "npm run dev --prefix admin",
+        "dev:backend": "nodemon backend/index.js",
+        "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:admin\" \"npm run dev:backend\""
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2",
+        "nodemon": "^3.1.14"
+    }
+}

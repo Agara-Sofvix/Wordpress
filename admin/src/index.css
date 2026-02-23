@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: #f1f5f9;
+  background-color: #0a0f1a;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #0a0f1a;
+  color: #f1f5f9;
+}
+
+/* Custom Grids & Patterns from Website */
+.engineering-grid {
+  background-size: 50px 50px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+.blueprint-grid {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(19, 91, 236, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(19, 91, 236, 0.05) 1px, transparent 1px);
+}
+
+.hero-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(19, 91, 236, 0.15) 0%, transparent 70%);
+}
+
+#root {
+  width: 100%;
+}
+
+/* Hide scrollbar globally for clean SEO Manager UI */
+* {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, and Opera */
+}
