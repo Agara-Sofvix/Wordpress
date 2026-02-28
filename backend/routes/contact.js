@@ -11,11 +11,9 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ message: 'Name, email, and message are required' });
         }
 
-        const submission = new Submission({
+        await Submission.create({
             name, email, company, phone, service, message
         });
-
-        await submission.save();
         res.status(201).json({ success: true, message: 'Submission received' });
     } catch (error) {
         console.error('Contact submission error:', error);

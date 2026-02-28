@@ -1,14 +1,19 @@
 import { authService } from './auth';
+import { getConfig } from './config';
 
-const API_BASE = 'http://127.0.0.1:5001/api';
-
-const getHeaders = () => ({
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${authService.getToken()}`
-});
+export const getHeaders = () => {
+    const config = (window as any).agaraReactAdminConfig;
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authService.getToken()}`,
+        'X-WP-Nonce': config?.nonce || ''
+    };
+};
 
 export const storage = {
     get: async (key: string) => {
+        const config = getConfig();
+        const API_BASE = config.apiBase;
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 5000);
 
@@ -29,6 +34,8 @@ export const storage = {
     },
 
     add: async (key: string, item: any) => {
+        const config = getConfig();
+        const API_BASE = config.apiBase;
         const endpoint = key === 'leads' ? `${API_BASE}/admin/submissions` : `${API_BASE}/content/${key}`;
         const response = await fetch(endpoint, {
             method: 'POST',
@@ -39,6 +46,8 @@ export const storage = {
     },
 
     update: async (key: string, id: string | null, updates: any) => {
+        const config = getConfig();
+        const API_BASE = config.apiBase;
         const endpoint = key === 'settings'
             ? `${API_BASE}/settings`
             : key === 'leads'
@@ -54,6 +63,8 @@ export const storage = {
     },
 
     delete: async (key: string, id: string) => {
+        const config = getConfig();
+        const API_BASE = config.apiBase;
         const endpoint = key === 'leads' ? `${API_BASE}/admin/submissions/${id}` : `${API_BASE}/content/${key}/${id}`;
         const response = await fetch(endpoint, {
             method: 'DELETE',
@@ -62,7 +73,9 @@ export const storage = {
         return await response.json();
     },
 
-    getStats: async (range: string = '7d') => {
+    getStats: async (range: string = '30d') => {
+        const config = getConfig();
+        const API_BASE = config.apiBase;
         try {
             const response = await fetch(`${API_BASE}/admin/stats?range=${range}`, {
                 headers: getHeaders()

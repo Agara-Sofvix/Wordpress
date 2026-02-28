@@ -1,13 +1,14 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ServiceModal from './ServiceModal';
+import { getAssetPath } from '../utils/assets';
 
 const serviceDetails: Record<string, { icon: string; color: string; bg: string; image: string; features: string[] }> = {
     "Web & App Development": {
         icon: "language",
         color: "text-primary",
         bg: "bg-primary/10",
-        image: "/assets/services/saas_product_service_1771580811262.png", // Fallback for now
+        image: getAssetPath("/assets/services/web_app_dev_service.png"),
         features: [
             "Custom Responsive Web Applications",
             "Native & Cross-Platform Mobile Apps",
@@ -20,7 +21,7 @@ const serviceDetails: Record<string, { icon: string; color: string; bg: string; 
         icon: "layers",
         color: "text-accent-green",
         bg: "bg-accent-green/10",
-        image: "/assets/services/saas_product_service_1771580811262.png",
+        image: getAssetPath("/assets/services/saas_product_service_1771580811262.png"),
         features: [
             "Multi-tenant Architecture Scalability",
             "Subscription & Stripe Payment Systems",
@@ -33,7 +34,7 @@ const serviceDetails: Record<string, { icon: string; color: string; bg: string; 
         icon: "query_stats",
         color: "text-primary",
         bg: "bg-primary/10",
-        image: "/assets/services/seo_growth_service_1771580833874.png",
+        image: getAssetPath("/assets/services/seo_growth_service_1771580833874.png"),
         features: [
             "Technical SEO Audits & Speed Fixes",
             "Content Strategy & Authority Building",
@@ -46,7 +47,7 @@ const serviceDetails: Record<string, { icon: string; color: string; bg: string; 
         icon: "terminal",
         color: "text-primary",
         bg: "bg-primary/10",
-        image: "/assets/services/server_os_service_1771580856165.png",
+        image: getAssetPath("/assets/services/server_os_service_1771580856165.png"),
         features: [
             "Enterprise Linux/Windows Server Setup",
             "Network Security & Firewall Config",
@@ -59,7 +60,7 @@ const serviceDetails: Record<string, { icon: string; color: string; bg: string; 
         icon: "engineering",
         color: "text-accent-green",
         bg: "bg-accent-green/10",
-        image: "/assets/services/it_support_service_1771580873150.png",
+        image: getAssetPath("/assets/services/it_support_service_1771580873150.png"),
         features: [
             "24/7 Remote Desktop & Tech Support",
             "Zero-Downtime Security Patching",
@@ -114,8 +115,8 @@ const Services: React.FC = () => {
             <div className="absolute inset-0 light-grid opacity-30"></div>
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl -mr-64 -mt-64"></div>
             <div className="max-w-7xl mx-auto px-6 lg:px-20 relative z-20 text-center mb-10 md:mb-16">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 md:mb-6 text-navy-deep tracking-tight">Our Core Services</h2>
-                <p className="text-[#616f89] max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">Specialized engineering services designed to build, secure, and grow your digital infrastructure.</p>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-4 md:mb-6 text-navy-deep tracking-tight">Custom Software &amp; IT Solutions in <span className="text-primary">Chennai</span></h2>
+                <p className="text-[#616f89] max-w-2xl mx-auto text-lg md:text-xl leading-relaxed">Specialized engineering services: Web Development in Tharamani, SEO in Velachery, and SaaS Product Architectures tailored for global success.</p>
             </div>
 
             <div className="max-w-7xl mx-auto px-6 lg:px-20 relative group">

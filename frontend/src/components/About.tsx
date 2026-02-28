@@ -12,10 +12,7 @@ const About: React.FC = () => {
                         Who We <span className="text-gradient-lime-cyan">Are</span>
                     </h1>
                     <p className="text-white/80 text-base sm:text-lg lg:text-2xl font-medium leading-relaxed max-w-5xl mx-auto">
-                        Agara-Sofvix is a technology solutions company focused on helping businesses succeed in the digital
-                        world. We combine software engineering, cloud infrastructure, and digital marketing to deliver
-                        complete business systems — not just websites or apps. Our team consists of engineers, developers,
-                        and strategists who understand how technology impacts business operations, sales, and scalability.
+                        Agara Sofvix is a premier **Web Development Company in Tharamani, Chennai**. We specialize in SaaS platform engineering, scalable cloud infrastructure, and **Technical SEO services for startups in Velachery** and SMEs near Tharamani IT Hub. Our mission is to be the best IT company for business automation and digital growth in South India and beyond.
                     </p>
                 </div>
             </section>
@@ -29,11 +26,7 @@ const About: React.FC = () => {
                                 Expertise that
                                 drives <span className="text-primary">scalability.</span></h2>
                             <p className="text-slate-600 text-base sm:text-lg lg:text-xl leading-relaxed">
-                                Agara-Sofvix is a technology solutions company focused on helping businesses succeed in the
-                                digital world. We combine software engineering, cloud infrastructure, and digital marketing
-                                to deliver complete business systems — not just websites or apps. Our team consists of
-                                engineers, developers, and strategists who understand how technology impacts business
-                                operations, sales, and scalability.
+                                Agara Sofvix is the best IT company in Chennai focused on helping businesses succeed with custom software development. We combine professional website development services, cloud infrastructure, and digital marketing to deliver complete business systems — not just websites or apps. Our team of software developers in Velachery consists of experts who understand how technology impacts business operations and scalability.
                             </p>
                             <div className="grid grid-cols-2 gap-8 pt-4">
                                 <div>
@@ -48,7 +41,7 @@ const About: React.FC = () => {
                         </div>
                         <div className="relative order-1 lg:order-2">
                             <div className="aspect-square rounded-3xl overflow-hidden shadow-2xl relative">
-                                <img alt="Team Engineering" className="w-full h-full object-cover"
+                                <img alt="Software Development Team at Tharamani IT Hub - Agara Sofvix" className="w-full h-full object-cover"
                                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFUVS7OyupW8PT7H5KzWjuZHuyG0B2dHGh-FKyynDX7FdMYsaeMv8m6avUmMh78xQcqKR4D-kYXj5Xy6S2wAFQsadqpcRDsaoDwU7J2TS8a8nBNwFYVAkWc8KYcdpXD46xWM69khce50orSk3bJDSdd4mtkHAjXjU02-yCLPZxegDFx48_BHY6IxdQcEGRf9vXcyUUpNZGR8OvQWq4qBEAqdaiBwlUgBWj4S92WdaKFjTEhI_FS8FcdjZR1F6OeOKjC7eUCMDC-M5x" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/60 to-transparent"></div>
                                 <div

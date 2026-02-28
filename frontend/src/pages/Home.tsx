@@ -5,7 +5,6 @@ import Services from '../components/Services';
 import WhyChoose from '../components/WhyChoose';
 import Process from '../components/Process';
 import Testimonials from '../components/Testimonials';
-import BlogSection from '../components/BlogSection';
 import CTA from '../components/CTA';
 import SEO from '../components/SEO';
 
@@ -19,7 +18,6 @@ const Home: React.FC = () => {
             <WhyChoose />
             <Process />
             <Testimonials />
-            <BlogSection />
             <CTA />
         </>
     );

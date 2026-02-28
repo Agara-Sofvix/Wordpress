@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { getAssetPath } from '../utils/assets';
 
 const Header: React.FC = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -14,9 +15,8 @@ const Header: React.FC = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Scroll to top on page change
+    // Close mobile menu on page change
     useEffect(() => {
-        window.scrollTo(0, 0);
         setIsMobileMenuOpen(false);
     }, [pathname]);
 
@@ -40,7 +40,7 @@ const Header: React.FC = () => {
                 <div className="flex-1 flex justify-start">
                     <Link to="/" className="flex items-center gap-3 group">
                         <div className="size-10 overflow-hidden transition-transform group-hover:scale-110">
-                            <img src="/assets/logo.png" alt="Agara-Sofvix Logo" className="w-full h-full object-contain" />
+                            <img src={getAssetPath('/assets/logo.png')} alt="Agara-Sofvix - Specialized Web & SaaS Development Agency" className="w-full h-full object-contain" />
                         </div>
                         <span className={`text-xl font-extrabold tracking-tight transition-colors ${isScrolled ? 'text-navy-deep' : 'text-white'}`}>
                             Agara-<span className="text-primary">Sofvix</span>

@@ -1,7 +1,16 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (req, res, next) => {
-    // Authentication Bypass: Allowing all requests for direct access
-    req.userData = { userId: 'bypass', username: 'admin' };
-    next();
+    try {
+        const token = req.headers.authorization?.split(' ')[1];
+        if (!token) {
+            return res.status(401).json({ message: 'Authentication failed: No token provided' });
+        }
+
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET || 'agara_admin_secret_key_2026_prod');
+        req.userData = { userId: decodedToken.userId, username: decodedToken.username };
+        next();
+    } catch (error) {
+        return res.status(401).json({ message: 'Authentication failed: Invalid token' });
+    }
 };

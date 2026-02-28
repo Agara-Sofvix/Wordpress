@@ -3,7 +3,6 @@ import { storage } from '../lib/storage';
 import {
     Users,
     FileText,
-    Wrench,
     ArrowUpRight,
     ArrowDownRight,
     LayoutDashboard
@@ -13,27 +12,29 @@ import { motion } from 'framer-motion';
 const Dashboard = () => {
     const [stats, setStats] = useState(() => {
         const cached = localStorage.getItem('dashboard_stats');
-        return cached ? JSON.parse(cached) : { leads: 0, services: 0, testimonials: 0 };
+        return cached ? JSON.parse(cached) : { leads: 0, testimonials: 0 };
     });
     const [recentLeads, setRecentLeads] = useState<any[]>(() => {
         const cached = localStorage.getItem('recent_leads');
         return cached ? JSON.parse(cached) : [];
     });
     const [loading, setLoading] = useState(true);
+    const [isConnected, setIsConnected] = useState(true);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
             setLoading(true);
             try {
-                const [leadsData, servicesData, testimonialsData] = await Promise.all([
+                const isHealthy = await storage.getStats('30d') !== null;
+                setIsConnected(isHealthy);
+
+                const [leadsData, testimonialsData] = await Promise.all([
                     storage.get('leads'),
-                    storage.get('services'),
                     storage.get('testimonials')
                 ]);
 
                 const newStats = {
                     leads: (leadsData || []).length,
-                    services: (servicesData || []).length,
                     testimonials: (testimonialsData || []).length
                 };
                 const newRecentLeads = (leadsData || []).slice(0, 5);
@@ -55,12 +56,23 @@ const Dashboard = () => {
 
     const cards = [
         { title: 'Total Leads', value: stats.leads, icon: Users, color: 'blue', change: '+12%', up: true },
-        { title: 'Services', value: stats.services, icon: Wrench, color: 'orange', change: '0', up: true },
         { title: 'Testimonials', value: stats.testimonials, icon: FileText, color: 'green', change: '+2', up: true },
     ];
 
     return (
         <div className="space-y-8 pb-8">
+            {!isConnected && !loading && (
+                <div className="bg-red-500/10 border border-red-500/20 p-6 rounded-3xl flex items-center gap-4 animate-in fade-in slide-in-from-top-4 duration-500">
+                    <div className="w-12 h-12 bg-red-500/20 rounded-2xl flex items-center justify-center shrink-0">
+                        <LayoutDashboard className="w-6 h-6 text-red-500" />
+                    </div>
+                    <div>
+                        <h4 className="text-red-500 font-black uppercase tracking-widest text-xs">Primary Protocol Offline</h4>
+                        <p className="text-red-500/60 text-[10px] font-bold uppercase tracking-wider mt-1">The dashboard is currently running on cached data. Terminal failed to establish handshake with the production API.</p>
+                    </div>
+                </div>
+            )}
+
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-2xl font-black text-white group flex items-center gap-2 font-display uppercase tracking-tight">
@@ -120,7 +132,7 @@ const Dashboard = () => {
                         </thead>
                         <tbody className="divide-y divide-white/5">
                             {recentLeads.map((lead) => (
-                                <tr key={lead._id} className="hover:bg-primary/[0.05] transition-colors cursor-pointer group">
+                                <tr key={lead.id} className="hover:bg-primary/[0.05] transition-colors cursor-pointer group">
                                     <td className="px-8 py-6">
                                         <div className="flex items-center gap-4">
                                             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary font-black border border-primary/20 group-hover:scale-110 transition-transform shadow-inner text-xs">

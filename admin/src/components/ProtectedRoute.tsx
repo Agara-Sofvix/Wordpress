@@ -1,27 +1,20 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import { authService } from '../lib/auth';
-import { Loader2 } from 'lucide-react';
 
-const ProtectedRoute = () => {
-    const [loading, setLoading] = useState(true);
-    const [authenticated, setAuthenticated] = useState(false);
+interface ProtectedRouteProps {
+    children: React.ReactNode;
+}
 
-    useEffect(() => {
-        const session = authService.getSession();
-        setAuthenticated(!!session);
-        setLoading(false);
-    }, []);
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+    const location = useLocation();
+    const authenticated = authService.isAuthenticated();
 
-    if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-admin-sidebar">
-                <Loader2 className="w-10 h-10 animate-spin text-admin-accent" />
-            </div>
-        );
+    if (!authenticated) {
+        // Redirect to login but save the current location to redirect back after login
+        return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
-    return authenticated ? <Outlet /> : <Navigate to="/admin/login" replace />;
+    return <>{children}</>;
 };
 
 export default ProtectedRoute;

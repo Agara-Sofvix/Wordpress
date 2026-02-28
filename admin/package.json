@@ -2,6 +2,7 @@
     "name": "agara-sofvix-admin",
     "version": "0.0.0",
     "private": true,
+    "homepage": ".",
     "type": "module",
     "scripts": {
         "dev": "vite",
@@ -12,6 +13,8 @@
         "@supabase/supabase-js": "^2.42.4",
         "@tanstack/react-table": "^8.20.5",
         "framer-motion": "^12.34.2",
+        "jspdf": "^4.2.0",
+        "jspdf-autotable": "^5.0.7",
         "lucide-react": "^0.460.0",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
@@ -20,6 +23,7 @@
         "recharts": "^3.7.0"
     },
     "devDependencies": {
+        "@types/jspdf": "^2.0.0",
         "@types/react": "^19.0.0",
         "@types/react-dom": "^19.0.0",
         "@vitejs/plugin-react": "^4.3.4",

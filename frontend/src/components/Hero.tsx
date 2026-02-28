@@ -9,10 +9,10 @@ const Hero: React.FC = () => {
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                     <div className="space-y-8">
                         <h1 className="font-structure text-white text-3xl sm:text-4xl lg:text-6xl font-bold leading-[1.1] tracking-tight">
-                            Need a Website, App, or Server Setup for Your Business? We Build It <span className="text-gradient-lime-cyan">Fast &amp; Right.</span>
+                            Leading <span className="text-gradient-lime-cyan">Web Development Company in Chennai</span> for Your Business.
                         </h1>
                         <p className="text-white/80 text-base sm:text-lg lg:text-xl font-medium leading-relaxed max-w-xl">
-                            Web Development • SaaS Applications • SEO • Cloud &amp; Local Server Setup for SMEs &amp; Startups
+                            Specialized SaaS Development, affordable Website Design, and Technical SEO for Startups. We build secure, high-conversion business systems for SMEs.
                         </p>
                         <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
                             <Link

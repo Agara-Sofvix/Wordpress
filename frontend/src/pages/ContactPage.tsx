@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../components/SEO';
+import { getConfig } from '../lib/config';
+
+const config = getConfig();
 
 const ContactPage: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -24,7 +27,7 @@ const ContactPage: React.FC = () => {
         setStatus(null);
 
         try {
-            const response = await fetch('http://localhost:5001/api/contact', {
+            const response = await fetch(`${config.apiBase}/contact`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -77,7 +80,7 @@ const ContactPage: React.FC = () => {
                         transition={{ delay: 0.1 }}
                         className="text-white/70 text-base sm:text-lg lg:text-2xl font-medium leading-relaxed max-w-3xl mx-auto"
                     >
-                        Tell us about your project. We turn complex requirements into high-performance digital ecosystems.
+                        Get a free project inquiry for website development near Tharamani IT Hub. We are a leading IT company in Tharamani and Velachery turning complex requirements into high-performance digital ecosystems.
                     </motion.p>
                 </div>
 
@@ -85,15 +88,15 @@ const ContactPage: React.FC = () => {
                     {/* Contact Details */}
                     <div className="lg:col-span-12 xl:col-span-5 space-y-8 order-2 xl:order-1">
                         <div className="space-y-4">
-                            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Contact Information</h2>
-                            <p className="text-white/60 text-lg">Interested in working together? Reach out to us through any of these channels.</p>
+                            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Best IT Company in Chennai</h2>
+                            <p className="text-white/60 text-lg">Looking for a web development company in Velachery or Tharamani? Interested in working together? Reach out to us through any of these channels.</p>
                         </div>
 
                         <div className="grid sm:grid-cols-2 xl:grid-cols-1 gap-5">
                             {/* Email Card */}
                             <motion.a
                                 whileHover={{ scale: 1.02, x: 5 }}
-                                href="mailto:agara92in@gmail.com"
+                                href="mailto:info@agara-sofvix.com"
                                 className="glass-card rounded-2xl p-6 flex items-start gap-5 group hover:border-primary/50 transition-all duration-300"
                             >
                                 <div className="size-14 bg-primary/20 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-primary transition-colors duration-300">
@@ -101,7 +104,7 @@ const ContactPage: React.FC = () => {
                                 </div>
                                 <div className="min-w-0">
                                     <h4 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-1">Email Us</h4>
-                                    <p className="text-lg font-bold text-white group-hover:text-primary transition-colors truncate">agara92in@gmail.com</p>
+                                    <p className="text-lg font-bold text-white group-hover:text-primary transition-colors truncate">info@agara-sofvix.com</p>
                                 </div>
                             </motion.a>
 

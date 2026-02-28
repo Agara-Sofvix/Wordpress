@@ -1,39 +1,36 @@
-import { NavLink, useNavigate, Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { authService } from '../lib/auth';
+import logo from '../assets/logo.png';
 import {
     LayoutDashboard,
     Users,
-    Wrench,
     Star,
-    LogOut,
     ChevronRight,
     BarChart3,
-    Search
+    Search,
+    LogOut
 } from 'lucide-react';
 
 const Sidebar = () => {
-    const navigate = useNavigate();
+    const config = (window as any).agaraReactAdminConfig;
+    const logoUrl = config?.logoUrl || logo;
 
     const menuItems = [
-        { name: 'Dashboard', icon: LayoutDashboard, path: '/admin/dashboard' },
-        { name: 'Analytics', icon: BarChart3, path: '/admin/analytics' },
-        { name: 'Leads', icon: Users, path: '/admin/leads' },
-        { name: 'Services', icon: Wrench, path: '/admin/services' },
-        { name: 'Testimonials', icon: Star, path: '/admin/testimonials' },
-        { name: 'SEO Manager', icon: Search, path: '/admin/seo' },
+        { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
+        { name: 'Analytics', icon: BarChart3, path: '/analytics' },
+        { name: 'Leads', icon: Users, path: '/leads' },
+        { name: 'Testimonials', icon: Star, path: '/testimonials' },
+        { name: 'SEO Manager', icon: Search, path: '/seo' },
     ];
 
-    const handleLogout = () => {
-        authService.logout();
-        navigate('/admin/login');
-    };
+
 
     return (
         <div className="w-64 bg-background-dark/95 backdrop-blur-xl h-full flex flex-col border-r border-white/5 shadow-2xl z-20">
             <div className="p-8 border-b border-white/5">
-                <Link to="/admin/dashboard" className="flex items-center gap-3 group">
+                <Link to="/dashboard" className="flex items-center gap-3 group">
                     <div className="size-10 overflow-hidden transition-transform group-hover:scale-110">
-                        <img src="/assets/logo.png" alt="Agara-Sofvix Logo" className="w-full h-full object-contain" />
+                        <img src={logoUrl} alt="Agara-Sofvix Logo" className="w-full h-full object-contain" />
                     </div>
                     <span className="text-xl font-extrabold tracking-tight text-white">
                         Agara-<span className="text-primary">Sofvix</span>
@@ -62,17 +59,17 @@ const Sidebar = () => {
                 ))}
             </nav>
 
-            <div className="p-4 mt-auto border-t border-white/5 space-y-2">
+            <div className="p-4 border-t border-white/5">
                 <button
                     onClick={() => {
-                        if (window.confirm('Are you sure you want to end the session?')) {
-                            handleLogout();
+                        if (window.confirm('Terminate session and logout?')) {
+                            authService.logout();
                         }
                     }}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-gray-400 hover:bg-red-500/10 hover:text-red-500 rounded-xl transition-all font-medium group"
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:bg-red-500/10 hover:text-red-500 transition-all group"
                 >
-                    <LogOut className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                    <span>Logout</span>
+                    <LogOut className="w-5 h-5" />
+                    <span className="font-medium">Logout Portal</span>
                 </button>
             </div>
         </div>

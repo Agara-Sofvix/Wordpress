@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+#root {
   font-family: 'Space Grotesk', system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -15,14 +15,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-body {
+  
+  width: 100%;
+  min-height: calc(100vh - 32px); /* Account for WP Admin Bar */
   margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  background-color: #0a0f1a;
-  color: #f1f5f9;
 }
 
 /* Custom Grids & Patterns from Website */

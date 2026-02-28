@@ -3,8 +3,10 @@ import SEOForm from '../components/SEOForm';
 import { GlobalSEO, PageSEO, PageSlug } from '../types/seo';
 import { Globe, FileText, ChevronDown } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { getConfig } from '../lib/config';
+import { getHeaders } from '../lib/storage';
 
-const API_BASE = 'http://127.0.0.1:5001/api/seo';
+const getSeoBase = () => `${getConfig().apiBase.replace(/\/$/, '')}/seo`;
 
 const SEOManager: React.FC = () => {
     const [globalSeo, setGlobalSeo] = useState<GlobalSEO | null>(null);
@@ -21,7 +23,7 @@ const SEOManager: React.FC = () => {
 
     const fetchGlobalSEO = async () => {
         try {
-            const response = await fetch(`${API_BASE}/global`);
+            const response = await fetch(`${getSeoBase()}/global`);
             if (response.ok) {
                 const data = await response.json();
                 setGlobalSeo(data);
@@ -35,7 +37,7 @@ const SEOManager: React.FC = () => {
     const fetchPageSEO = async (slug: string) => {
         setIsLoadingPage(true);
         try {
-            const response = await fetch(`${API_BASE}/pages/${slug}`);
+            const response = await fetch(`${getSeoBase()}/pages/${slug}`);
             if (response.ok) {
                 const data = await response.json();
                 setPageSeo(data);
@@ -63,9 +65,9 @@ const SEOManager: React.FC = () => {
     const handleGlobalSave = async (data: any) => {
         setIsLoadingGlobal(true);
         try {
-            const response = await fetch(`${API_BASE}/global`, {
+            const response = await fetch(`${getSeoBase()}/global`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(data)
             });
             if (response.ok) {
@@ -85,9 +87,9 @@ const SEOManager: React.FC = () => {
     const handlePageSave = async (data: any) => {
         setIsLoadingPage(true);
         try {
-            const response = await fetch(`${API_BASE}/pages/${selectedPage}`, {
+            const response = await fetch(`${getSeoBase()}/pages/${selectedPage}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: getHeaders(),
                 body: JSON.stringify(data)
             });
             if (response.ok) {
@@ -109,7 +111,19 @@ const SEOManager: React.FC = () => {
             <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-black text-white font-display uppercase tracking-tight">SEO Manager</h1>
-                    <p className="text-gray-400 mt-2">Control how your website appears in search engines and social media.</p>
+                    <div className="flex items-center gap-3 mt-2">
+                        <p className="text-gray-400">Control how your website appears in search engines.</p>
+                        <span className="text-gray-600">|</span>
+                        <a
+                            href={`${getConfig().apiBase.replace(/\/api$/, '')}/api/seo/sitemap.xml`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:text-primary/80 text-xs font-bold flex items-center gap-1 transition-colors"
+                        >
+                            View Sitemap.xml
+                            <span className="material-symbols-outlined text-[14px]">open_in_new</span>
+                        </a>
+                    </div>
                 </div>
                 <div className="flex bg-white/5 p-1 rounded-xl border border-white/5 h-fit self-start">
                     <button

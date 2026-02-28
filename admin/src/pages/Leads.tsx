@@ -13,6 +13,8 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 const Leads = () => {
     const [leads, setLeads] = useState<any[]>([]);
@@ -65,6 +67,45 @@ const Leads = () => {
         setIsViewModalOpen(true);
     };
 
+    const handlePullData = () => {
+        if (leads.length === 0) {
+            toast.error('No data available to export');
+            return;
+        }
+
+        const doc = new jsPDF();
+
+        // Add Title
+        doc.setFontSize(20);
+        doc.setTextColor(40);
+        doc.text('Agara-Sofvix Lead Database', 14, 22);
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.text(`Exported on: ${new Date().toLocaleString()}`, 14, 30);
+
+        const tableData = leads.map(lead => [
+            lead.name || 'N/A',
+            lead.email || 'N/A',
+            lead.phone || 'N/A',
+            lead.service || 'General Inquiry',
+            lead.status?.toUpperCase() || 'NEW',
+            new Date(lead.createdAt).toLocaleString()
+        ]);
+
+        autoTable(doc, {
+            startY: 35,
+            head: [['Name', 'Email', 'Phone', 'Service', 'Status', 'Date']],
+            body: tableData,
+            styles: { fontSize: 8, cellPadding: 3 },
+            headStyles: { fillColor: [59, 130, 246], textColor: 255, fontStyle: 'bold' },
+            alternateRowStyles: { fillColor: [245, 247, 250] },
+            margin: { top: 35 },
+        });
+
+        doc.save(`agara_leads_${new Date().toISOString().split('T')[0]}.pdf`);
+        toast.success('Leads exported successfully');
+    };
+
     const filteredLeads = leads.filter(lead =>
         lead.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         lead.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -82,7 +123,10 @@ const Leads = () => {
                     <p className="text-gray-500 text-sm mt-1 font-structure uppercase tracking-widest text-[10px]">Tracking and responding to potential assets through the central architecture.</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <button className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-2xl text-xs font-black text-gray-300 hover:bg-white/10 hover:text-white transition-all shadow-xl backdrop-blur-sm uppercase tracking-[0.2em]">
+                    <button
+                        onClick={handlePullData}
+                        className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-2xl text-xs font-black text-gray-300 hover:bg-white/10 hover:text-white transition-all shadow-xl backdrop-blur-sm uppercase tracking-[0.2em]"
+                    >
                         <Download className="w-4 h-4 text-primary" /> Pull Data
                     </button>
                 </div>
@@ -121,7 +165,7 @@ const Leads = () => {
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}
-                                        key={lead._id}
+                                        key={lead.id}
                                         className="hover:bg-primary/[0.02] transition-colors group"
                                     >
                                         <td className="px-8 py-6">
@@ -172,7 +216,7 @@ const Leads = () => {
                                                     {['new', 'contacted', 'closed'].filter(s => s !== lead.status).map(s => (
                                                         <button
                                                             key={s}
-                                                            onClick={() => updateStatus(lead._id, s)}
+                                                            onClick={() => updateStatus(lead.id, s)}
                                                             className="text-[10px] font-black text-gray-400 hover:text-primary uppercase tracking-widest transition-colors"
                                                         >
                                                             Switch to {s}
@@ -190,7 +234,7 @@ const Leads = () => {
                                                     <ExternalLink className="w-5 h-5" />
                                                 </button>
                                                 <button
-                                                    onClick={() => deleteLead(lead._id)}
+                                                    onClick={() => deleteLead(lead.id)}
                                                     className="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all shadow-sm hover:shadow-md"
                                                 >
                                                     <Trash2 className="w-5 h-5" />
@@ -281,7 +325,7 @@ const Leads = () => {
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <button
-                                            onClick={() => deleteLead(selectedLead._id)}
+                                            onClick={() => deleteLead(selectedLead.id)}
                                             className="p-4 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-2xl transition-all"
                                         >
                                             <Trash2 className="w-6 h-6" />

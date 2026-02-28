@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { storage } from '../lib/storage';
-import { Bell, Search, User, Clock, Mail } from 'lucide-react';
+import { authService } from '../lib/auth';
+import { Bell, Search, Clock, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -9,6 +10,7 @@ const Topbar = () => {
     const [recentNotifications, setRecentNotifications] = useState<any[]>([]);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [hasNewUnseen, setHasNewUnseen] = useState(false);
+    const [isOnline, setIsOnline] = useState<boolean | null>(null);
 
     const fetchNotifications = async () => {
         try {
@@ -25,7 +27,7 @@ const Topbar = () => {
 
                 // Check if the latest notification is newer than the last seen one
                 const lastSeenId = localStorage.getItem('last_seen_notification_id');
-                const latestId = newLeads[0]?._id;
+                const latestId = newLeads[0]?.id;
 
                 if (latestId && latestId !== lastSeenId) {
                     setHasNewUnseen(true);
@@ -46,15 +48,25 @@ const Topbar = () => {
             // Mark as seen when opening
             setHasNewUnseen(false);
             if (recentNotifications.length > 0) {
-                localStorage.setItem('last_seen_notification_id', recentNotifications[0]._id);
+                localStorage.setItem('last_seen_notification_id', recentNotifications[0].id);
             }
         }
     };
 
     useEffect(() => {
+        const checkHealth = async () => {
+            const connected = await authService.checkConnection();
+            console.log('[Topbar] Health Check Result:', connected);
+            setIsOnline(connected);
+        };
+
+        checkHealth();
         fetchNotifications();
-        // Poll for new notifications every 30 seconds
-        const interval = setInterval(fetchNotifications, 30000);
+        // Poll for health and notifications every 30 seconds
+        const interval = setInterval(() => {
+            checkHealth();
+            fetchNotifications();
+        }, 30000);
         return () => clearInterval(interval);
     }, []);
 
@@ -70,6 +82,13 @@ const Topbar = () => {
             </div>
 
             <div className="flex items-center gap-6">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10">
+                    <div className={`w-1.5 h-1.5 rounded-full ${isOnline === true ? 'bg-accent-green animate-pulse' : isOnline === false ? 'bg-red-500' : 'bg-gray-500'}`}></div>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400">
+                        {isOnline === true ? 'Sync Active' : isOnline === false ? 'Sync Failure' : 'Calibrating...'}
+                    </span>
+                </div>
+
                 <div className="relative">
                     <button
                         onClick={handleToggleDropdown}
@@ -107,8 +126,8 @@ const Topbar = () => {
                                         {recentNotifications.length > 0 ? (
                                             recentNotifications.map((notif) => (
                                                 <Link
-                                                    key={notif._id}
-                                                    to="/admin/leads"
+                                                    key={notif.id}
+                                                    to="/leads"
                                                     onClick={() => setIsDropdownOpen(false)}
                                                     className="p-5 border-b border-white/5 flex gap-4 hover:bg-white/[0.03] transition-colors group"
                                                 >
@@ -138,7 +157,7 @@ const Topbar = () => {
                                         )}
                                     </div>
                                     <Link
-                                        to="/admin/leads"
+                                        to="/leads"
                                         onClick={() => setIsDropdownOpen(false)}
                                         className="p-4 block text-center text-[10px] font-black text-gray-400 hover:text-white hover:bg-white/[0.02] transition-all uppercase tracking-widest border-t border-white/5"
                                     >
@@ -150,11 +169,6 @@ const Topbar = () => {
                     </AnimatePresence>
                 </div>
 
-                <div className="h-8 w-px bg-white/10"></div>
-
-                <div className="w-11 h-11 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20 shadow-sm transition-transform hover:scale-105">
-                    <User className="w-6 h-6 text-primary" />
-                </div>
             </div>
         </header>
     );

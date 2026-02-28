@@ -43,17 +43,14 @@ router.delete('/submissions/:id', auth, async (req, res) => {
 router.get('/stats', auth, async (req, res) => {
     try {
         const { range = '7d' } = req.query;
+
         const totalSubmissions = await Submission.countDocuments();
         const newSubmissions = await Submission.countDocuments({ status: 'new' });
 
         // Calculate Date Range
-        const now = new Date();
         const startDate = new Date();
-        let format = "%Y-%m-%d"; // Default daily
-
         if (range === '24h') {
             startDate.setHours(startDate.getHours() - 24);
-            format = "%H:00"; // Hourly for 24h
         } else if (range === '30d') {
             startDate.setDate(startDate.getDate() - 30);
         } else if (range === '90d') {
@@ -62,31 +59,32 @@ router.get('/stats', auth, async (req, res) => {
             startDate.setDate(startDate.getDate() - 7);
         }
 
-        // Calculate Lead Trends
+        // Lead Trends Aggregation
+        const format = range === '24h' ? '%H:00' : '%Y-%m-%d';
         const trends = await Submission.aggregate([
             { $match: { createdAt: { $gte: startDate } } },
             {
                 $group: {
-                    _id: { $dateToString: { format: format, date: "$createdAt" } },
+                    _id: { $dateToString: { format: format, date: '$createdAt' } },
                     count: { $sum: 1 }
                 }
             },
             { $sort: { _id: 1 } }
         ]);
 
-        // Calculate Service Distribution for the selected range
+        // Service Distribution Aggregation
         const distribution = await Submission.aggregate([
             { $match: { createdAt: { $gte: startDate } } },
             {
                 $group: {
-                    _id: "$service",
+                    _id: '$service',
                     count: { $sum: 1 }
                 }
             }
         ]);
 
         const stats = {
-            totalVisits: 12842, // Mock visits for UI
+            totalVisits: 12842,
             conversionRate: ((totalSubmissions / 12842) * 100).toFixed(1) + '%',
             formSubmissions: totalSubmissions,
             newSubmissionsCount: newSubmissions,

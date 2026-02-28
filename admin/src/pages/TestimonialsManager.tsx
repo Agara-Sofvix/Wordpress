@@ -79,7 +79,7 @@ const TestimonialsManager = () => {
 
     const openForm = (t?: any) => {
         if (t) {
-            setEditingId(t._id || t.id);
+            setEditingId(t.id);
             setForm({
                 client_name: t.name || t.client_name,
                 company: t.company || '',
@@ -114,7 +114,7 @@ const TestimonialsManager = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {testimonials.map((t) => (
-                    <div key={t._id || t.id} className="bg-white/5 backdrop-blur-sm rounded-[2.5rem] border border-white/5 p-8 flex flex-col group hover:border-primary/30 transition-all relative overflow-hidden shadow-2xl">
+                    <div key={t.id} className="bg-white/5 backdrop-blur-sm rounded-[2.5rem] border border-white/5 p-8 flex flex-col group hover:border-primary/30 transition-all relative overflow-hidden shadow-2xl">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-[5rem] -mr-8 -mt-8 group-hover:bg-primary/10 transition-colors" />
                         <Quote className="absolute top-8 right-8 w-10 h-10 text-primary opacity-10 group-hover:opacity-20 transition-all group-hover:scale-110" />
 
@@ -143,7 +143,7 @@ const TestimonialsManager = () => {
 
                             <div className="flex gap-2">
                                 <button onClick={() => openForm(t)} className="p-3 text-gray-500 hover:text-primary hover:bg-primary/10 rounded-xl transition-all border border-white/5 bg-black/20"><Edit3 className="w-4 h-4" /></button>
-                                <button onClick={() => handleDelete(t._id || t.id)} className="p-3 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all border border-white/5 bg-black/20"><Trash2 className="w-4 h-4" /></button>
+                                <button onClick={() => handleDelete(t.id)} className="p-3 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all border border-white/5 bg-black/20"><Trash2 className="w-4 h-4" /></button>
                             </div>
                         </div>
                     </div>

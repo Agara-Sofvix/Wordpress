@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { getAssetPath } from '../utils/assets';
 
 interface Testimonial {
-    _id: string;
+    id: string;
     name: string;
     role: string;
     company: string;
@@ -11,6 +12,10 @@ interface Testimonial {
     image: string;
 }
 
+import { getConfig } from '../lib/config';
+
+const config = getConfig();
+
 const Testimonials: React.FC = () => {
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
     const [loading, setLoading] = useState(true);
@@ -18,7 +23,7 @@ const Testimonials: React.FC = () => {
     useEffect(() => {
         const fetchTestimonials = async () => {
             try {
-                const response = await fetch('http://localhost:5001/api/content/testimonials');
+                const response = await fetch(`${config.apiBase}/content/testimonials`);
                 if (response.ok) {
                     const data = await response.json();
                     setTestimonials(data);
@@ -47,7 +52,7 @@ const Testimonials: React.FC = () => {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {testimonials.map((testimonial, index) => (
                         <motion.div
-                            key={testimonial._id}
+                            key={testimonial.id}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.1 }}
@@ -65,7 +70,7 @@ const Testimonials: React.FC = () => {
                             <div className="flex items-center gap-4">
                                 <div className="size-12 rounded-full overflow-hidden bg-primary/10 border border-primary/20">
                                     {testimonial.image ? (
-                                        <img src={testimonial.image} alt={testimonial.name} className="w-full h-full object-cover" />
+                                        <img src={getAssetPath(testimonial.image)} alt={testimonial.name} className="w-full h-full object-cover" />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center text-primary font-bold">
                                             {testimonial.name.charAt(0)}

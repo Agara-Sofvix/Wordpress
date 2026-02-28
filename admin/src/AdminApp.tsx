@@ -1,45 +1,19 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
-import AdminLayout from './layout/AdminLayout';
-import Dashboard from './pages/Dashboard';
-import Leads from './pages/Leads';
-import ServicesManager from './pages/ServicesManager';
-import TestimonialsManager from './pages/TestimonialsManager';
-import SEOManager from './pages/SEOManager';
-
-// Lazy load Analytics for performance
-const Analytics = lazy(() => import('./pages/Analytics'));
-
-import ProtectedRoute from './components/ProtectedRoute';
-import LoginPage from './pages/LoginPage';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const AdminApp = () => {
+    const location = useLocation();
+
+    useEffect(() => {
+        console.log('[AgaraRouter] Path Changed:', location.pathname);
+    }, [location]);
+
     return (
-        <Suspense fallback={
-            <div className="min-h-screen bg-background-dark flex items-center justify-center">
-                <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-            </div>
-        }>
-            <Routes>
-                <Route path="/admin/login" element={<LoginPage />} />
-
-                <Route element={<ProtectedRoute />}>
-                    <Route element={<AdminLayout />}>
-                        <Route path="/admin/dashboard" element={<Dashboard />} />
-                        <Route path="/admin/analytics" element={<Analytics />} />
-                        <Route path="/admin/leads" element={<Leads />} />
-                        <Route path="/admin/services" element={<ServicesManager />} />
-                        <Route path="/admin/testimonials" element={<TestimonialsManager />} />
-                        <Route path="/admin/seo" element={<SEOManager />} />
-                    </Route>
-                </Route>
-
-                {/* Default redirect to admin dashboard */}
-                <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-                <Route path="/" element={<Navigate to="/admin/dashboard" replace />} />
-                <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
-            </Routes>
-        </Suspense>
+        <div className="fixed bottom-4 left-4 z-[9999] pointer-events-none opacity-20 hover:opacity-100 transition-opacity">
+            <span className="bg-black/80 text-[8px] text-primary font-black px-2 py-1 rounded uppercase tracking-widest border border-primary/20">
+                Route: {location.pathname}
+            </span>
+        </div>
     );
 };
 

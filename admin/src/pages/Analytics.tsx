@@ -26,16 +26,22 @@ const COLORS = ['#135bec', '#10b981', '#f43f5e', '#8b5cf6', '#eab308'];
 const Analytics = () => {
     const [stats, setStats] = useState<any>(null);
     const [loading, setLoading] = useState(true);
-    const [timeRange, setTimeRange] = useState('7d');
+    const [timeRange, setTimeRange] = useState('30d');
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchStats = async () => {
             setLoading(true);
+            setError(null);
             try {
                 const data = await storage.getStats(timeRange);
+                if (!data) {
+                    setError('Telemetry node returned empty data set. Verify transmission protocol.');
+                }
                 setStats(data);
-            } catch (error) {
-                console.error('Failed to fetch stats:', error);
+            } catch (err: any) {
+                console.error('Failed to fetch stats:', err);
+                setError(`Connection Synchronicity Error: ${err.message}`);
             } finally {
                 setLoading(false);
             }
@@ -117,6 +123,15 @@ const Analytics = () => {
                 </div>
             </div>
 
+            {error && (
+                <div className="bg-red-500/10 border border-red-500/20 p-6 rounded-[2rem] flex items-center justify-between">
+                    <div>
+                        <h3 className="text-red-500 text-xs font-black uppercase tracking-widest">Diagnostic Alert</h3>
+                        <p className="text-red-400/70 text-[10px] font-bold mt-1 uppercase tracking-wider">{error}</p>
+                    </div>
+                </div>
+            )}
+
             {loading ? (
                 <div className="flex items-center justify-center min-h-[400px]">
                     <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
@@ -195,7 +210,7 @@ const Analytics = () => {
                                             paddingAngle={5}
                                             dataKey="value"
                                         >
-                                            {distributionData.map((_, index) => (
+                                            {distributionData.map((_: any, index: number) => (
                                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} stroke="transparent" />
                                             ))}
                                         </Pie>
@@ -206,7 +221,7 @@ const Analytics = () => {
                                     </PieChart>
                                 </ResponsiveContainer>
                                 <div className="absolute right-8 top-1/2 -translate-y-1/2 space-y-4">
-                                    {distributionData.map((item, idx) => (
+                                    {distributionData.map((item: any, idx: number) => (
                                         <div key={item.name} className="flex items-center gap-3">
                                             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS[idx % COLORS.length] }}></div>
                                             <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{item.name}</span>
@@ -225,7 +240,7 @@ const Analytics = () => {
                             { label: 'Conversion', val: stats?.conversionRate || '0%', desc: 'Lead generation efficiency', icon: ShieldCheck, color: 'emerald' },
                             { label: 'Transmissions', val: stats?.formSubmissions || '0', desc: 'Total node interactions', icon: Zap, color: 'purple' },
                             { label: 'Active Leads', val: stats?.newSubmissionsCount || '0', desc: 'New inbound queue', icon: Activity, color: 'orange' },
-                        ].map((item, idx) => (
+                        ].map((item: any, idx: number) => (
                             <motion.div
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -263,7 +278,7 @@ const Analytics = () => {
                         { event: 'LEAD_TRANS_INIT', node: 'Delta-4', time: '14:22:45', status: 'optimal' },
                         { event: 'CORE_SYNC_COMPL', node: 'Alpha-1', time: '14:22:12', status: 'optimal' },
                         { event: 'SECURITY_VAULT_ROT', node: 'Sigma-9', time: '14:21:58', status: 'optimal' },
-                    ].map((log, idx) => (
+                    ].map((log: any, idx: number) => (
                         <div key={idx} className="flex items-center justify-between p-4 bg-white/[0.02] border border-white/5 rounded-2xl">
                             <div className="flex items-center gap-4">
                                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse"></div>

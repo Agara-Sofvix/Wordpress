@@ -1,18 +1,29 @@
 const mongoose = require('mongoose');
 
 const serviceSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    category: { type: String, default: 'Core Service' },
-    description: { type: String, required: true },
-    icon: { type: String }, // name of material icon
-    features: [{ type: String }],
-    image: { type: String },
-    stats: {
-        label: { type: String },
-        value: { type: String }
+    title: {
+        type: String,
+        required: true
     },
-    order: { type: Number, default: 0 },
-    createdAt: { type: Date, default: Date.now }
+    category: {
+        type: String,
+        default: 'Core Service'
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    icon: String,
+    features: [String],
+    image: String,
+    stats_label: String,
+    stats_value: String,
+    order: {
+        type: Number,
+        default: 0
+    }
+}, {
+    timestamps: true
 });
 
 module.exports = mongoose.model('Service', serviceSchema);

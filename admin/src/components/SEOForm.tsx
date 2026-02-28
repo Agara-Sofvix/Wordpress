@@ -30,9 +30,9 @@ const SEOForm: React.FC<SEOFormProps> = ({
     isPageLevel = false,
     initialData
 }) => {
-    const [title, setTitle] = useState(initialTitle);
-    const [description, setDescription] = useState(initialDescription);
-    const [keywords, setKeywords] = useState(initialKeywords);
+    const [title, setTitle] = useState(initialTitle || '');
+    const [description, setDescription] = useState(initialDescription || '');
+    const [keywords, setKeywords] = useState(initialKeywords || '');
     const [ogImage, setOgImage] = useState(initialOgImage || '');
     const [canonical, setCanonical] = useState(initialCanonical || '');
     const [twitterCard, setTwitterCard] = useState(initialData?.twitter_card_type || 'summary_large_image');
@@ -41,9 +41,9 @@ const SEOForm: React.FC<SEOFormProps> = ({
     const [googleAnalyticsId, setGoogleAnalyticsId] = useState(initialData?.google_analytics_id || '');
 
     useEffect(() => {
-        setTitle(initialTitle);
-        setDescription(initialDescription);
-        setKeywords(initialKeywords);
+        setTitle(initialTitle || '');
+        setDescription(initialDescription || '');
+        setKeywords(initialKeywords || '');
         setOgImage(initialOgImage || '');
         setCanonical(initialCanonical || '');
         if (!isPageLevel && initialData) {
@@ -86,8 +86,8 @@ const SEOForm: React.FC<SEOFormProps> = ({
                     <div>
                         <div className="flex justify-between items-center mb-2">
                             <label className="text-sm font-medium text-gray-300">Meta Title</label>
-                            <span className={`text-xs ${title.length > 60 ? 'text-yellow-500' : 'text-gray-500'}`}>
-                                {title.length}/60
+                            <span className={`text-xs ${(title?.length || 0) > 60 ? 'text-yellow-500' : 'text-gray-500'}`}>
+                                {title?.length || 0}/60
                             </span>
                         </div>
                         <input
@@ -102,8 +102,8 @@ const SEOForm: React.FC<SEOFormProps> = ({
                     <div>
                         <div className="flex justify-between items-center mb-2">
                             <label className="text-sm font-medium text-gray-300">Meta Description</label>
-                            <span className={`text-xs ${description.length > 160 ? 'text-yellow-500' : 'text-gray-500'}`}>
-                                {description.length}/160
+                            <span className={`text-xs ${(description?.length || 0) > 160 ? 'text-yellow-500' : 'text-gray-500'}`}>
+                                {description?.length || 0}/160
                             </span>
                         </div>
                         <textarea
@@ -233,7 +233,7 @@ const SEOForm: React.FC<SEOFormProps> = ({
                         <div>
                             <p className="text-[14px] text-gray-900 leading-none">Agara-Sofvix</p>
                             <p className="text-[12px] text-gray-500 truncate">
-                                https://agara-sofvix.com{isPageLevel ? '/...' : ''}
+                                {window.location.protocol}//{window.location.hostname}{isPageLevel ? '/...' : ''}
                             </p>
                         </div>
                         <span className="ml-auto text-gray-400">⋮</span>

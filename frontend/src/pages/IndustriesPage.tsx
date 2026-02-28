@@ -17,13 +17,13 @@ const industryData: Record<string, Industry> = {
         icon: "rocket_launch",
         color: "text-primary",
         bg: "bg-primary/10",
-        description: "Rapid prototyping, MVP development, and scalable cloud architectures to turn your vision into a market-ready product.",
+        description: "Affordable web development for startups in Chennai. Rapid prototyping, MVP development, and scalable cloud architectures to turn your vision into a market-ready product.",
         details: [
-            "Rapid MVP (Minimum Viable Product) Development",
+            "Rapid MVP Development in Velachery",
             "Scalable Cloud Architecture & DevOps",
-            "User Experience (UX) Strategy & Product Design",
+            "Startup IT Services Chennai Excellence",
             "Investor-Ready Pitch Deck Technical Support",
-            "Agile Feature Iterations & Growth Hacking Systems"
+            "Agile Feature Iterations & Growth Systems"
         ]
     },
     "SMEs": {
@@ -31,11 +31,11 @@ const industryData: Record<string, Industry> = {
         icon: "storefront",
         color: "text-accent-green",
         bg: "bg-accent-green/10",
-        description: "Digital transformation strategies and automated business systems designed to optimize small and medium operations.",
+        description: "Website development for small business and SMEs. Digital transformation strategies and automated systems designed to optimize operations in Chennai.",
         details: [
             "Custom CRM & Internal Operations Portals",
             "Automated Billing & Inventory Systems",
-            "E-commerce & Digital Presence Expansion",
+            "SME Business Website Development Chennai",
             "Legacy System Modernization",
             "Cybersecurity Audits & Data Protection"
         ]
@@ -124,8 +124,7 @@ const IndustriesPage: React.FC = () => {
                         transition={{ delay: 0.1 }}
                         className="text-white/80 text-base sm:text-lg lg:text-2xl font-medium leading-relaxed max-w-4xl mx-auto"
                     >
-                        If your business needs digital systems, we can support you. We build specialized solutions
-                        across diverse sectors, focusing on technical excellence and operational efficiency.
+                        Agara Sofvix is a leading **software company for SMEs in Chennai** and provider of **startup IT solutions in Tharamani and Velachery**. We build specialized digital systems focusing on technical excellence and operational efficiency.
                     </motion.p>
                 </div>
             </section>
@@ -229,7 +228,7 @@ const IndustriesPage: React.FC = () => {
                                     <span className="material-symbols-outlined">arrow_forward</span>
                                 </Link>
                                 <a
-                                    href="mailto:agara92in@gmail.com?subject=Project Inquiry&body=Hi, I would like to discuss a project regarding {selectedIndustry.name}."
+                                    href="mailto:info@agara-sofvix.com?subject=Project Inquiry&body=Hi, I would like to discuss a project regarding {selectedIndustry.name}."
                                     className="bg-accent-green/5 hover:bg-accent-green/10 text-accent-green px-8 py-5 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all"
                                 >
                                     <span className="material-symbols-outlined text-accent-green">mail</span>

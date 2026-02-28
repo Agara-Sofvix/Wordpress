@@ -4,11 +4,7 @@ const Service = require('../models/Service');
 const Testimonial = require('../models/Testimonial');
 const auth = require('../middleware/auth');
 
-/**
- * PUBLIC ROUTES (Website)
- */
-
-// GET all services
+// Services
 router.get('/services', async (req, res) => {
     try {
         const services = await Service.find().sort({ order: 1 });
@@ -18,26 +14,9 @@ router.get('/services', async (req, res) => {
     }
 });
 
-
-// GET all testimonials
-router.get('/testimonials', async (req, res) => {
-    try {
-        const testimonials = await Testimonial.find().sort({ order: 1 });
-        res.json(testimonials);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
-});
-
-/**
- * PROTECTED ROUTES (Admin)
- */
-
-// Services
 router.post('/services', auth, async (req, res) => {
     try {
-        const service = new Service(req.body);
-        const newService = await service.save();
+        const newService = await Service.create(req.body);
         res.status(201).json(newService);
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -62,12 +41,19 @@ router.delete('/services/:id', auth, async (req, res) => {
     }
 });
 
-
 // Testimonials
+router.get('/testimonials', async (req, res) => {
+    try {
+        const testimonials = await Testimonial.find().sort({ order: 1 });
+        res.json(testimonials);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 router.post('/testimonials', auth, async (req, res) => {
     try {
-        const testimonial = new Testimonial(req.body);
-        const newTestimonial = await testimonial.save();
+        const newTestimonial = await Testimonial.create(req.body);
         res.status(201).json(newTestimonial);
     } catch (err) {
         res.status(400).json({ message: err.message });
